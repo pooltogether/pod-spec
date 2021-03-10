@@ -3,7 +3,7 @@ pragma solidity >=0.7.0 <0.8.0;
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 
-/// @title The Pod specification interface.  
+/// @title The PoolTogether Pod specification
 interface IPod is IERC20 {
 
   /// @notice Returns the address of the prize pool that the pod is bound to
@@ -17,8 +17,11 @@ interface IPod is IERC20 {
   function depositTo(address to, uint256 tokenAmount) external returns (uint256);
 
   /// @notice Withdraws a users share of the prize pool.
+  /// @dev The function should first withdraw from the 'float'; i.e. the funds that have not yet been deposited.
+  /// if the withdraw is for more funds that can be covered by the float, then a withdrawal is made against the underlying
+  /// prize pool.  The user will be charged the prize pool's exit fee on the underlying funds.  The fee remains in the float.
   /// @param shareAmount The number of Pod shares to redeem
-  /// @return The amount of tokens that were transferred to the user.  This is the same as the deposit token.
+  /// @return The actual amount of tokens that were transferred to the user.  This is the same as the deposit token.
   function withdraw(uint256 shareAmount) external returns (uint256);
 
   /// @notice Calculates the token value per Pod share.
@@ -27,6 +30,7 @@ interface IPod is IERC20 {
   function getPricePerShare() external view returns (uint256);
 
   /// @notice Allows someone to batch deposit funds into the underlying prize pool.  This should be called periodically.
+  /// @dev This function should deposit the float into the prize pool, and claim any POOL tokens and distribute to users (possibly via adaptation of Token Faucet)
   function batch() external;
 
   /// @notice Allows the owner of the Pod or the asset manager to withdraw tokens from the Pod.
