@@ -19,7 +19,7 @@ interface IPod is IERC20 {
   /// @notice Withdraws a users share of the prize pool.
   /// @dev The function should first withdraw from the 'float'; i.e. the funds that have not yet been deposited.
   /// if the withdraw is for more funds that can be covered by the float, then a withdrawal is made against the underlying
-  /// prize pool.  The user will be charged the prize pool's exit fee on the underlying funds.  The fee remains in the float.
+  /// prize pool.  The user will be charged the prize pool's exit fee on the underlying funds.  The fee can be calculated using PrizePool#calculateEarlyExitFee()
   /// @param shareAmount The number of Pod shares to redeem
   /// @return The actual amount of tokens that were transferred to the user.  This is the same as the deposit token.
   function withdraw(uint256 shareAmount) external returns (uint256);
