@@ -44,12 +44,6 @@ interface IPod is IERC20 {
   /// @param tokenId The token id to withdraw
   function withdrawERC721(IERC721 token, uint256 tokenId) external;
 
-  /// @notice Allows someone to deposit into the Pod without receiving any shares back.
-  /// @dev This could be used by a liquidation strategy; the strat could withdraw the loot box, liquidate it, then 
-  /// deposit the resulting funds back into the Pod.
-  /// @param tokenAmount The amount of tokens to deposit.  Same tokens as `depositTo` above.
-  function sponsor(uint256 tokenAmount) external;
-
   /// @notice Allows a user to claim POOL tokens for an address.  The user will be transferred their share of POOL tokens.
   function claim(address user, address token) external returns (uint256);
 
